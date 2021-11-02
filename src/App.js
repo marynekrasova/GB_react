@@ -1,22 +1,35 @@
-import { useState } from "react";
-import { Message } from "./components/message";
+import {useCallback, useEffect, useState} from "react";
+import { Form } from "./components/form";
+import {MessageList} from "./components/messageList";
 import "./App.css";
+import {Authors} from "./utils/constants";
 
+const initialMessages = [];
 function App() {
-  const [text, setText] = useState("First task React. Click on the text.");
+  const [messages, setMessage] = useState(initialMessages);
+  const handleSendMessage = useCallback((newMessage) => {
+    setMessage(prevMessage =>[...prevMessage, newMessage]);
+  },[])
 
-  const handleClick = () => {
-    alert("Click event triggered.");
-    setText("Cheange text");
-  };
+  useEffect(()=>{
+    if(messages.length && messages[messages.length - 1].author!== Authors.bot){
+      const timeout = setTimeout(()=>
+      handleSendMessage({
+        author: Authors.bot,
+        text: "Hello. I am bot!",
+        id: ` mess-${Date.now()}`
+      }), 1000);
+      return ()=> clearTimeout(timeout);
+    }
+  },[messages])
   return (
     <div className="App">
-      <header className="App-header">
-        <Message message={text} onMessageClick={handleClick} />
-        <p className="App-message">
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-      </header>
+        <div className="App-form">
+        <div className="Form-field">
+          <MessageList messages={messages}/>
+        </div>
+        <Form onSendMessage={handleSendMessage}/>
+        </div>
     </div>
   );
 }
