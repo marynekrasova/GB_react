@@ -3,6 +3,8 @@ import { Form } from "./components/form";
 import {MessageList} from "./components/messageList";
 import "./App.css";
 import {Authors} from "./utils/constants";
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
 
 const initialMessages = [];
 function App() {
@@ -25,10 +27,16 @@ function App() {
   return (
     <div className="App">
         <div className="App-form">
-        <div className="Form-field">
-          <MessageList messages={messages}/>
-        </div>
-        <Form onSendMessage={handleSendMessage}/>
+          <List className="App-list">
+            <ListItem key='1'>Chat1</ListItem>
+            <ListItem key='2'>Chat2</ListItem>
+          </List>
+          <div className="App-field">
+            <div className="Form-field">
+               <MessageList messages={messages}/>
+            </div>
+            <Form onSendMessage={handleSendMessage}/>
+          </div>
         </div>
     </div>
   );

@@ -25,21 +25,43 @@
   background-color: lightgrey;
   border-radius: 10px 100px / 120px;
   min-height: 800px;
+  padding-top: 20px;
   width: 95%;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-direction: row;
+  align-items: start;
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
 }
-
+.App-list {
+  background-color: gainsboro;
+  border-radius: 10px 100px / 120px;
+  min-height: 650px;
+  width: 30%;
+}
+.App-field {
+  min-height: 700px;
+  width: 60%;
+  margin-bottom: 10px;
+  margin-left: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 .Form-field {
   background-color: gainsboro;
   border-radius: 10px 100px / 120px;
   min-height: 700px;
-  width: 70%;
-  margin: 10px 0;
+  margin-bottom: 15px;
+  width: 100%;
 }
+.MuiTextField-root {
+  background-color: white;
+  border-radius: 10px;
+  margin-right: 20px;
+}
+
 
 
