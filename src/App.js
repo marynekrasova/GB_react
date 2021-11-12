@@ -1,45 +1,32 @@
-import {useCallback, useEffect, useState} from "react";
-import { Form } from "./components/form";
-import {MessageList} from "./components/messageList";
-import "./App.css";
-import {Authors} from "./utils/constants";
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
+import React from "react";
+import { BrowserRouter, Link, Routes, Route } from "react-router-dom";
+import { ChatList } from "./components/chatList";
+import Chats from "./components/chats";
+import { Home } from "./components/home";
+import {Profile} from "./components/profile";
 
-const initialMessages = [];
-function App() {
-  const [messages, setMessage] = useState(initialMessages);
-  const handleSendMessage = useCallback((newMessage) => {
-    setMessage(prevMessage =>[...prevMessage, newMessage]);
-  },[])
+export const App = () => (
+  <BrowserRouter>
+    <ul className="App-link">
+      <li>
+        <Link to="/">Home</Link>
+      </li>
+      <li>
+        <Link to="/chats">Chats</Link>
+      </li>
+      <li>
+        <Link to="/profile">Profile</Link>
+      </li>
+    </ul>
 
-  useEffect(()=>{
-    if(messages.length && messages[messages.length - 1].author!== Authors.bot){
-      const timeout = setTimeout(()=>
-      handleSendMessage({
-        author: Authors.bot,
-        text: "Hello. I am bot!",
-        id: ` mess-${Date.now()}`
-      }), 1000);
-      return ()=> clearTimeout(timeout);
-    }
-  },[messages])
-  return (
-    <div className="App">
-        <div className="App-form">
-          <List className="App-list">
-            <ListItem key='1'>Chat1</ListItem>
-            <ListItem key='2'>Chat2</ListItem>
-          </List>
-          <div className="App-field">
-            <div className="Form-field">
-               <MessageList messages={messages}/>
-            </div>
-            <Form onSendMessage={handleSendMessage}/>
-          </div>
-        </div>
-    </div>
-  );
-}
-
-export default App;
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="profile" element={<Profile />} />
+      <Route path="chats">
+        <Route index element={<ChatList />} />
+        <Route path=":chatId" element={<Chats />} />
+      </Route>
+      <Route path="*" element={<h3>404</h3>} />
+    </Routes>
+  </BrowserRouter>
+);

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import {Authors} from "../utils/constants";
 import Button from "@mui/material/Button";
 import TextField from '@mui/material/TextField';
@@ -20,10 +20,11 @@ export const Form = ({onSendMessage}) => {
         id: `mes-${Date.now()}`
       }
     );
-    inputRef.current?.focus();
-
     setValue('');
   }
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
 
   return (
     <form  onSubmit={handleSubmit}>
