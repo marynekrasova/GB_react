@@ -1,40 +1,16 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect} from "react";
 import { Form } from "./form";
 import {MessageList} from "./messageList";
 import "../App.css";
 import {Authors} from "../utils/constants";
-import List from '@mui/material/List';
 import {ChatList} from "./chatList";
 import {
   Navigate,
   useParams,
 } from "react-router";
 
-
-const initialMessages = {
-  chat1: [
-    {
-      text: "text1",
-      author: Authors.human,
-    },
-  ],
-  chat2: [
-    {
-      text: "this is chat2",
-      author: Authors.human,
-    },
-  ],
-  chat3: [
-    {
-      text: "this is chat3",
-      author: Authors.human,
-    },
-  ],
-};
-
-function Chats() {
+function Chats({ chatList, messages, setMessages, onDeleteChat, onAddChat  }) {
   const { chatId } = useParams();
-  const [messages, setMessages] = useState(initialMessages);
 
   const handleSendMessage = useCallback((newMessage) => {
       setMessages((prevMessages) => ({
@@ -64,7 +40,9 @@ function Chats() {
   return (
     <div className="App" >
       <div className="App-form">
-        <ChatList />
+        <ChatList chatList={chatList}
+                  onAddChat={onAddChat}
+                  onDeleteChat={onDeleteChat} />
         <div className="App-field">
           <div className="Form-field">
             <MessageList messages={messages[chatId]}/>
