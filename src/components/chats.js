@@ -4,21 +4,17 @@ import {MessageList} from "./messageList";
 import "../App.css";
 import {Authors} from "../utils/constants";
 import {ChatList} from "./chatList";
-import {
-  Navigate,
-  useParams,
-} from "react-router";
+import { Navigate, useParams} from "react-router";
+import { connect} from "react-redux";
+import { addMessage } from "../store/messages/actions";
 
-function Chats({ chatList, messages, setMessages, onDeleteChat, onAddChat  }) {
+function Chats({ messages, sendMessage}) {
   const { chatId } = useParams();
 
   const handleSendMessage = useCallback((newMessage) => {
-      setMessages((prevMessages) => ({
-        ...prevMessages,
-        [chatId]: [...prevMessages[chatId], newMessage],
-      }));
+      sendMessage(chatId, newMessage);
     },
-    [chatId]
+    [chatId, sendMessage]
   );
   useEffect(()=>{
     if(messages[chatId]?.length && messages[chatId]?.[messages[chatId]?.length - 1].author!== Authors.bot){
@@ -40,9 +36,7 @@ function Chats({ chatList, messages, setMessages, onDeleteChat, onAddChat  }) {
   return (
     <div className="App" >
       <div className="App-form">
-        <ChatList chatList={chatList}
-                  onAddChat={onAddChat}
-                  onDeleteChat={onDeleteChat} />
+        <ChatList />
         <div className="App-field">
           <div className="Form-field">
             <MessageList messages={messages[chatId]}/>
@@ -56,3 +50,16 @@ function Chats({ chatList, messages, setMessages, onDeleteChat, onAddChat  }) {
 }
 
 export default Chats;
+
+const mapStateToProps = (state) => ({
+  messages: state.messages,
+});
+
+const mapDispatchToProps = {
+  sendMessage: addMessage,
+};
+
+export const ConnectedChats = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Chats);
