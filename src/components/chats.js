@@ -1,12 +1,11 @@
-import React, {useCallback, useEffect} from "react";
+import React, {useCallback} from "react";
 import { Form } from "./form";
 import {MessageList} from "./messageList";
 import "../App.css";
-import {Authors} from "../utils/constants";
 import {ChatList} from "./chatList";
 import { Navigate, useParams} from "react-router";
 import { connect} from "react-redux";
-import { addMessage } from "../store/messages/actions";
+import { addMessageWithReply} from "../store/messages/actions";
 
 function Chats({ messages, sendMessage}) {
   const { chatId } = useParams();
@@ -16,18 +15,6 @@ function Chats({ messages, sendMessage}) {
     },
     [chatId, sendMessage]
   );
-  useEffect(()=>{
-    if(messages[chatId]?.length && messages[chatId]?.[messages[chatId]?.length - 1].author!== Authors.bot){
-      const timeout = setTimeout(()=>
-        handleSendMessage({
-          author: Authors.bot,
-          text: "Hello. I am bot!",
-          id: ` mess-${Date.now()}`
-        }), 1000);
-      return ()=> clearTimeout(timeout);
-    }
-  },[messages])
-
 
   if (!messages[chatId]) {
     return <Navigate replace to="/chats" />;
@@ -56,7 +43,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-  sendMessage: addMessage,
+  sendMessage: addMessageWithReply,
 };
 
 export const ConnectedChats = connect(

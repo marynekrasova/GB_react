@@ -3,7 +3,6 @@ import Button from "@mui/material/Button";
 import {useDispatch} from "react-redux";
 import {deleteMessage} from "../store/messages/actions";
 import {useParams} from "react-router";
-import {createSelectMessagesForChat, selectMessages} from "../store/messages/selector";
 
 export const MessageList = ({messages}) => {
   const { chatId } = useParams();

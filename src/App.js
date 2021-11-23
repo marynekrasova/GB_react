@@ -3,10 +3,15 @@ import { ChatList } from "./components/chatList";
 import { ConnectedChats } from "./components/chats";
 import { Home } from "./components/home";
 import { ConnectedProfile} from "./components/profile";
+import {persistor, store} from "./store/store";
+import {PersistGate} from "redux-persist/integration/react";
+import { Provider } from "react-redux";
 
 export const App = () => {
 
   return (
+    <Provider store={store}>
+    <PersistGate persistor={persistor}>
   <BrowserRouter>
     <ul className="App-link">
       <li>
@@ -30,5 +35,7 @@ export const App = () => {
       <Route path="*" element={<h3>404</h3>}/>
     </Routes>
   </BrowserRouter>
+    </PersistGate>
+    </Provider>
   );
 };
