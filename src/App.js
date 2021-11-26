@@ -1,24 +1,46 @@
-import { useState } from "react";
-import { Message } from "./components/message";
-import "./App.css";
+import { BrowserRouter, Link, Routes, Route} from "react-router-dom";
+import { ChatList } from "./components/chatList";
+import { ConnectedChats } from "./components/chats";
+import { Home } from "./components/home";
+import { ConnectedProfile} from "./components/profile";
+import {persistor, store} from "./store/store";
+import {PersistGate} from "redux-persist/integration/react";
+import { Provider } from "react-redux";
+import { Articles } from "./components/articles";
 
-function App() {
-  const [text, setText] = useState("First task React. Click on the text.");
+export const App = () => {
 
-  const handleClick = () => {
-    alert("Click event triggered.");
-    setText("Cheange text");
-  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <Message message={text} onMessageClick={handleClick} />
-        <p className="App-message">
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-      </header>
-    </div>
-  );
-}
+    <Provider store={store}>
+    <PersistGate persistor={persistor}>
+  <BrowserRouter>
+    <ul className="App-link">
+      <li>
+        <Link to="/">Home</Link>
+      </li>
+      <li>
+        <Link to="/chats">Chats</Link>
+      </li>
+      <li>
+        <Link to="/profile">Profile</Link>
+      </li>
+      <li>
+        <Link to="/articles">Articles</Link>
+      </li>
+    </ul>
 
-export default App;
+    <Routes>
+      <Route path="/" element={<Home/>}/>
+      <Route path="profile" element={<ConnectedProfile />} />
+      <Route path="chats">
+        <Route index element={<ChatList />} />
+        <Route path=":chatId" element={<ConnectedChats />} />
+      </Route>
+      <Route path="articles" element={<Articles />} />
+      <Route path="*" element={<h3>404</h3>}/>
+    </Routes>
+  </BrowserRouter>
+    </PersistGate>
+    </Provider>
+  );
+};
