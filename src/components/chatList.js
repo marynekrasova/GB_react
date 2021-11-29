@@ -2,15 +2,19 @@ import { ChatItem } from "./chatItem";
 import { TextField } from "@mui/material";
 import React from "react";
 import Button from "@mui/material/Button";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addChat } from "../store/chats/actions";
+import { addChatWithFb, initChatsTracking, } from "../store/chats/actions";
 import { selectChats } from "../store/chats/selectors";
 
 export const ChatList = () => {
   const [value, setValue] = useState("");
   const chatList = useSelector(selectChats);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(initChatsTracking());
+  }, []);
 
   const handleChange = (e) => {
     setValue(e.target.value);
@@ -19,27 +23,27 @@ export const ChatList = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const newId = `chat${Date.now()}`;
-    dispatch(addChat({ name: value, id: newId }));
+    dispatch(addChatWithFb({ name: value, id: newId }));
     setValue("");
   };
   return (
     <div className="App-list">
-      <h3>List of chats</h3>
-      <ul>
-        {chatList.map((chat) => (
-            <ChatItem chat={chat} />
-        ))}
-      </ul>
-
-      <form onSubmit={handleSubmit}>
-        <TextField
+       <h3>List of chats</h3>
+       <ul>
+         {chatList.map((chat) => (
+           <li key={chat.id}>
+             <ChatItem chat={chat} />
+           </li>
+         ))}
+       </ul>
+       <form onSubmit={handleSubmit}>
+         <TextField
           id="standard-basic"
           variant="standard"
           value={value}
           onChange={handleChange} />
-        <Button variant="outlined" type="submit">ADD NEW CHAT</Button>
-      </form>
-
-    </div>
+         <Button variant="outlined" type="submit">ADD NEW CHAT</Button>
+       </form>
+     </div>
   );
 };

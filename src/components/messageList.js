@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React from 'react';
 import Button from "@mui/material/Button";
 import {useDispatch} from "react-redux";
 import {deleteMessage} from "../store/messages/actions";
@@ -17,3 +17,5 @@ export const MessageList = ({messages}) => {
       <Button onClick={handleDeleteMessage} id={message.id}> X </Button>
     </div>);
 }
+
+

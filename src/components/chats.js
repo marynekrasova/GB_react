@@ -6,12 +6,15 @@ import {ChatList} from "./chatList";
 import { Navigate, useParams} from "react-router";
 import { connect} from "react-redux";
 import { addMessageWithReply} from "../store/messages/actions";
+import { push } from "firebase/database";
+import { getChatMsgsListRefById } from "../services/firebase";
 
 function Chats({ messages, sendMessage}) {
   const { chatId } = useParams();
 
-  const handleSendMessage = useCallback((newMessage) => {
-      sendMessage(chatId, newMessage);
+  const handleSendMessage = useCallback(
+    (newMessage) => {
+      push(getChatMsgsListRefById(chatId), newMessage);
     },
     [chatId, sendMessage]
   );
