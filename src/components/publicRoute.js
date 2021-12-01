@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { Navigate, Outlet } from "react-router";
+import { Navigate, Outlet } from "react-router-dom";
 import { selectAuth } from "../store/profile/selector";
 
 export const PublicRoute = ({ children }) => {

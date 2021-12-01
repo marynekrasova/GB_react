@@ -2,7 +2,7 @@ import React from 'react';
 import Button from "@mui/material/Button";
 import {useDispatch} from "react-redux";
 import {deleteMessage} from "../store/messages/actions";
-import {useParams} from "react-router";
+import {useParams} from "react-router-dom";
 
 export const MessageList = ({messages}) => {
   const { chatId } = useParams();
@@ -14,8 +14,11 @@ export const MessageList = ({messages}) => {
   return messages.map((message) =>
     <div className="App-message" key={message.id}>
       <span>{message.author}</span> : <span>{message.text}</span>
-      <Button onClick={handleDeleteMessage} id={message.id}> X </Button>
+      {/*<Button onClick={handleDeleteMessage} id={message.id}> X </Button>*/}
     </div>);
 }
+
+
+
 
 
