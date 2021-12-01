@@ -1,24 +1,15 @@
-import { useState } from "react";
-import { Message } from "./components/message";
-import "./App.css";
+import React from "react";
+import {persistor, store} from "./store/store";
+import {PersistGate} from "redux-persist/integration/react";
+import {Provider} from "react-redux";
+import {Router} from "./components/routes";
 
-function App() {
-  const [text, setText] = useState("First task React. Click on the text.");
-
-  const handleClick = () => {
-    alert("Click event triggered.");
-    setText("Cheange text");
-  };
+export const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <Message message={text} onMessageClick={handleClick} />
-        <p className="App-message">
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-      </header>
-    </div>
+    <Provider store={store}>
+      <PersistGate persistor={persistor}>
+        <Router />
+      </PersistGate>
+    </Provider>
   );
-}
-
-export default App;
+};
