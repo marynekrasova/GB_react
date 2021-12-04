@@ -1,8 +1,14 @@
 import React from 'react';
-export const Message = ({ message, onMessageClick }) => {
+
+export const Message = ({message}) => {
+
   return (
-    <h3 className="App-message" onClick={onMessageClick}>
-      {message}
-    </h3>
+    <div className="App-message">
+      <span>{message.author}</span> : <span>{message.text}</span>
+    </div>
   );
+
 };
+
+
+
